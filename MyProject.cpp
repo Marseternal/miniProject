@@ -4,33 +4,35 @@
 #include <algorithm>
 #include <fstream>
 
+//password generator
+
 using namespace std;
 
-unsigned int lenght;		//длина парол€ от 1 до 100
-bool fGenerator = true;		// флаг генератора паролей
-unsigned int t;				//переменна€ дл€ выбора символов
+unsigned int lenght;		//password length from 1 to 100
+bool fGenerator = true;		//password generator flag
+unsigned int t;			//character selection variable
 
 vector <unsigned char> Letters 
 { 'q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m' };// Let=1
 vector <unsigned char> Numbers  { '1','2','3','4','5','6','7','8','9','0' }; // Num=2
 vector <unsigned char> Symbols  { '!','@','#','$','%','^','&','*','(',')','-','=','+','/','~','?','<','>' }; // Sym=3
-vector <unsigned char> voidVector;			//пустой массив/буффер
-vector <unsigned char> randVector;			// массив с случайным набором символами т.е. пароль будет здесь
+vector <unsigned char> voidVector;			//empty array / buffer
+vector <unsigned char> randVector;			//an array with a random set of characters i.e. password will be here
 
-enum types {Let = 1, Num, Sym = 3, LetNum = 12, LetSym, NumSym = 23, LetNumSym = 123, }; //дл€ case
+enum types {Let = 1, Num, Sym = 3, LetNum = 12, LetSym, NumSym = 23, LetNumSym = 123, }; //for case
 
-void typeSymbols();				//выбор типов символов, из которых будет состо€ть пароль
+void typeSymbols();				//selection of the types of characters the password will consist of
 
 void UnionVectors123(); 
 void UnionVectors12();
 void UnionVectors13();
-void UnionVectors23();	/*функции объединени€ векторов с разными типами символов*/
+void UnionVectors23();	/*functions of combining vectors with different types of characters*/
 void UnionVectors1();
 void UnionVectors2();
 void UnionVectors3();
 
-void randPassword();			// функци€ заполнени€ массива случайным набором символов
-void WritePassword();			// функци€ записи паролей в текстовый файл
+void randPassword();			//random array character filling function
+void WritePassword();			//function to write passwords to a text fil
 
 int main()
 {
@@ -41,17 +43,17 @@ int main()
 		cout << "1-letters, 2-numbers, 3-symbols, 12 let&num, 13-let&sym, 23-num&sym, 123-let&num&sym; 0 - exit" << endl;
 		cin >> t;
 		typeSymbols();	
-		if (!fGenerator == false)			//если поймали исключение в typeSymbols(), то произойдЄт выход из программы								
-		{										//игнориру€ последующий код
-			cout << "Enter 0 <= lenght <= 100" << endl;
+		if (!fGenerator == false)			//if an exception is caught in typeSymbols(), then the program will exit,							
+		{										//ignoring subsequent code
+			cout << "Enter 0 < lenght <= 100" << endl;
 			cin >> lenght;
 			if (lenght <= 100 && lenght > 0)
 			{
-				randPassword();							//заполнение и вывод парол€ в консоль
+				randPassword();					//filling and displaying the password in the console
 				cout << "Write down?\ty/n" << endl;	
-				WritePassword();					    //функци€ записи парол€ в блокнот (по желанию)
-				voidVector.clear();					    //очистка буффера дл€ нового парол€
-				randVector.clear();						//очистка вектора с паролем
+				WritePassword();				  //function to write a password in a notebook
+				voidVector.clear();				  //clear buffer for new password
+				randVector.clear();				  //cleaning vector with password
 			}
 			else
 			{
@@ -110,7 +112,7 @@ void randPassword()
 void WritePassword()
 {
 	char w = 0;
-	while (w != 'y' && w != 'n') //"да" или "нет" или бесконечный цикл
+	while (w != 'y' && w != 'n') //"yes" or "no" 
 	{	
 		cin >> w;
 	}
@@ -118,7 +120,7 @@ void WritePassword()
 	{
 		string str = "Passwords.txt";
 		ofstream fout;
-		fout.open(str, ofstream::app); //писать поверх других данных в файле
+		fout.open(str, ofstream::app); 
 		if (!fout.is_open()) 
 			cout << "Error! File is not found" << endl;
 		else
@@ -148,7 +150,7 @@ void typeSymbols()
 		case LetSym: UnionVectors13();	break;
 		case NumSym: UnionVectors23();	break;
 		case LetNumSym: UnionVectors123(); break;
-		case 0: fGenerator = false; break; //выход из программы 
+		case 0: fGenerator = false; break; //exit from the program 
 		default: throw 1;
 		};
 	}
